@@ -14,7 +14,7 @@ class Index {
             return json_encode($response);
        } else {
 
-        $additional_headers = array(
+        $headers = array(
             'Content-Type: application/json'
          );
 
@@ -22,9 +22,9 @@ class Index {
          curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
          curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($transaction_data)); // the data passed into the request is in json format                                                                 
          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
-         curl_setopt($ch, CURLOPT_HTTPHEADER, $additional_headers); 
+         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
          
-         return $server_output = curl_exec ($ch); // return server response
+         return $server_response = curl_exec ($ch); // return server response
        }
     }
 }
