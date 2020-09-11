@@ -1,0 +1,17 @@
+{
+    "name": "peterperez/mazzuma-library",
+    "description": "A composer package for Mazzuma Mobile Money API",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Peter Pere",
+            "email": "perezpeter32@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {"peter\\Mazzuma\\": "src/"}
+    },
+    "require": {}
+}
