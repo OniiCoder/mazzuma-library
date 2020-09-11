@@ -29,8 +29,8 @@ $endpoint_url = 'https://client.teamcyst.com/api_call.php';
 $transaction_data = array(
     "price"=> 1,
     "network"=> "mtn",
-    "recipient_number"=> "0548797248",
-    "sender"=> "0541718326",
+    "recipient_number"=> "054XXXXXXX",
+    "sender"=> "054XXXXXXX",
     "option"=> "rmtm",
     "apikey"=> "YOUR-API-KEY" // provide API Key from Mazzuma Dashboard
 );
