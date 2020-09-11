@@ -3,11 +3,8 @@
 namespace Peter\Mazzuma;
 
 class Index {
-    public function greet($greet = "Hello World") {
-        return $greet;
-    }
 
-    function sendMoney($endpoint_url, $transaction_data) {
+    public function sendMoney($endpoint_url, $transaction_data) {
 
         ($endpoint_url == '') ? $endpoint_url = 'https://client.teamcyst.com/api_call.php' : null;
 
