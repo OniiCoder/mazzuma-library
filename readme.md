@@ -1,1 +1,3 @@
 ## Mazzuma PHP package
+
+# Installation
