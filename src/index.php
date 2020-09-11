@@ -6,8 +6,6 @@ class Index {
 
     public function sendMoney($endpoint_url, $transaction_data) {
 
-        ($endpoint_url == '') ? $endpoint_url = 'https://client.teamcyst.com/api_call.php' : null;
-
        if($transaction_data["apikey"] == null || $transaction_data["apikey"] == '') {
             $response->code = 500;
             $response->status = "failed";
