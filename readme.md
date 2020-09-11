@@ -7,3 +7,5 @@ If you are good to go, add the Mazzuma package to your project directory with co
 ```
 composer require peterperez/mazzuma-library:dev-master
 ```
+
+## Example usage
