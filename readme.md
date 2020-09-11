@@ -32,7 +32,7 @@ $transaction_data = array(
     "recipient_number"=> "0548797248",
     "sender"=> "0541718326",
     "option"=> "rmtm",
-    "apikey"=> "a86f63ac31317afe14be406f9d3c6a9eafa863986414b856357a505c99b2aa9c" // provide API Key from Mazzuma Dashboard
+    "apikey"=> "YOUR-API-KEY" // provide API Key from Mazzuma Dashboard
 );
 
 //initiate transaction and assign response to $transaction
