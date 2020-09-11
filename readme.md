@@ -8,4 +8,10 @@ If you are good to go, add the Mazzuma package to your project directory with co
 composer require peterperez/mazzuma-library:dev-master
 ```
 
-## Example usage
+## Example Usage
+
+```
+composer require peterperez/mazzuma-library:dev-master
+```
+
+To further understand the API endpoint, parameters and also; your API-KEY, visit [Mazzuma Developer Portal](https://mazzuma.com/developer/).
