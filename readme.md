@@ -10,7 +10,7 @@ composer require peterperez/mazzuma-library:dev-master
 
 ## Example Usage
 
-```
+```php
 
 <?php
 
