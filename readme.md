@@ -2,4 +2,4 @@
 
 ## Installation
 
-Run command on PHP project directory
+Add the Mazzuma package to your project directory with command below:
