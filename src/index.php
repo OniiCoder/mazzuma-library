@@ -70,7 +70,7 @@ class MazzumaAPI {
          
          $server_response = curl_exec ($ch);
          $this->api_response = json_decode($server_response, true);
-         
+
          return $this->api_response;
     }
 
@@ -179,7 +179,7 @@ class MazzumaAPI {
         $data = [
             "price"=> $amount,
             "network"=> $network,
-            "recipient_number"=> $paymentDirectionalFlow,
+            "recipient_number"=> $recipient_momo_number,
             "sender"=> $sender_momo_number,
             "option"=> $option,
             "apikey"=> $apikey
