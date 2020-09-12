@@ -76,33 +76,59 @@ class MazzumaAPI {
          return $this->api_response;
     }
 
+    /**
+     * set transaction amount
+     * @param $amount_input string - the amount to send
+     * @return MazzumaAPI
+     */
     private function amount($amount_input) {
         $this->validateAmount($amount_input);
         $this->amount = $amount_input;
         return $this;
     }
 
+    /**
+     * returns the transaction amount
+     * @return string
+     */
     public function getAmount() {
         return $this->amount;
     }
 
+    /**
+     * set sender number
+     * @param $sender string - the mobile money phone number of the sender
+     * @return MazzumaAPI
+     */
     private function sender($sender) {
         $this->sender = $sender;
-
         return $this;
     }
 
+    /**
+     * returns the sender
+     * @return string
+     */
     public function getSender() {
         return $this->sender;
     }
 
+    /**
+     * set recipient number
+     * @param $reciever string - the mobile money phone number of the recipient
+     * @return MazzumaAPI
+     */
     private function recipient($reciever) {
         $this->recipient = $receiver;
         return $this;
     }
 
+    /**
+     * returns the recipient
+     * @return string
+     */
     public function getRecipient() {
-        return $this;
+        return $this->recipient;
     }
 
     /**
@@ -126,6 +152,9 @@ class MazzumaAPI {
         return strtolower($networks[0]);
     }
 
+    /**
+     * return the corresponding Mazzuma option for each payment flow input
+     */
     private function setPaymentOption($payment_flow) {
 
         switch ($paymentDirection) {
@@ -166,13 +195,7 @@ class MazzumaAPI {
     /**
      * Parses the Transaction Details into Json for API call
      */
-    private function buildTransactionDetails(
-        $option,
-        $network,
-        $apikey,
-        $sender_momo_number,
-        $recipient_momo_number,
-        $amount
+    private function buildTransactionDetails($option, $network, $apikey, $sender_momo_number, $recipient_momo_number, $amount
     ) {
         if (empty($option) || empty($network) || empty($apikey) || empty($sender_momo_number) || empty($recipient_momo_number) || empty($amount)) {
             return "Invalid Input! Make sure to provide all inputs";
@@ -192,6 +215,10 @@ class MazzumaAPI {
         return $json_data;
     }
 
+    /**
+     * validate the amount to ensure it's a number
+     * @return boolean
+     */
     private function validateAmount($amount) {
 
         if(!is_numeric($amount_input)) {
