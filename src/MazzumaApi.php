@@ -130,7 +130,7 @@ class MazzumaApi {
     public function recipient($receiver) {
 
         // check that recipient number is provided
-        if($sender == null) {
+        if($receiver == null) {
             throw new EmptyArgumentNotAccepted("Recipient MOMO Number is missing!");
         }
 
