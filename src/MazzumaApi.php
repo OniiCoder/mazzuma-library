@@ -127,7 +127,7 @@ class MazzumaApi {
      * @param $reciever string - the mobile money phone number of the recipient
      * @return MazzumaAPI
      */
-    public function recipient($receiver) {
+    public function recipient($receiver = null) {
 
         // check that recipient number is provided
         if($receiver == null) {
@@ -212,20 +212,46 @@ class MazzumaApi {
      */
     public function buildTransactionDetails($option, $network, $apikey, $sender_momo_number, $recipient_momo_number, $amount
     ) {
+
+        $are_valid_inputs = $this->validateAllInput(
+            $amount,
+            $network,
+            $recipient_momo_number,
+            $sender_momo_number,
+            $option,
+            $apikey
+        );
+
+        if($are_valid_inputs) {
+            $data = [
+                "price"=> $amount,
+                "network"=> $network,
+                "recipient_number"=> $recipient_momo_number,
+                "sender"=> $sender_momo_number,
+                "option"=> $option,
+                "apikey"=> $apikey
+            ];
+    
+            return $data;
+        }
+    }
+
+    /**
+     * Check that all fields are not empty strings
+     */
+    public function validateAllInput(
+        $amount,
+        $network,
+        $recipient_momo_number,
+        $sender_momo_number,
+        $option,
+        $apikey
+    ) {
         if (empty($option) || empty($network) || empty($apikey) || empty($sender_momo_number) || empty($recipient_momo_number) || empty($amount)) {
-            return "Invalid Input! Make sure to provide all inputs";
+            throw new EmptyArgumentNotAccepted("Invalid Input! Make sure to provide all inputs!");
         }
 
-        $data = [
-            "price"=> $amount,
-            "network"=> $network,
-            "recipient_number"=> $recipient_momo_number,
-            "sender"=> $sender_momo_number,
-            "option"=> $option,
-            "apikey"=> $apikey
-        ];
-
-        return $data;
+        return true;
     }
 
     /**
