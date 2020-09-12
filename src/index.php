@@ -31,14 +31,14 @@ class MazzumaApi {
     private $api_response;
 
     /**
-     * create new MazzumaAPI instance
+     * create new MazzumaApi instance
      */
     public function __construct($key) {
         $this->apikey = $key;
     }
 
     /**
-     * Call method to process transaction
+     * Call API to process transaction
      */
 
     public function sendMoney() {
