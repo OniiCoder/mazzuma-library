@@ -16,16 +16,16 @@ composer require peterperez/mazzuma-library:dev-master
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-// import our mazzuma class
+// IMPORT MazzumaApi PACKAGE
 use Peter\Mazzuma\MazzumaApi;
 
-// get API key from your Mazzuma Dashboard
+// GET API KEY FROM MAZZUMA DASHBOARD
 $api_key = "XXXXXXX"; 
 
-// initialize the library
+// INITIALIZE THE MazzumaApi
 $mazzuma = new MazzumaApi($api_key);
 
-//initiate transaction and assign response to $transaction
+// INITIATE TRANSACTION AND ASSIGN API RESPONSE TO $api_response
 try {
 $api_response = $mazzuma->transfer('MTN_TO_MTN') // TRANSCATION FLOW
                 ->amount(1) // AMOUNT TO SEND
