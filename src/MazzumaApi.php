@@ -3,11 +3,12 @@
 namespace Peter\Mazzuma;
 use Peter\Mazzuma\Exception\InvalidAmountException;
 use Peter\Mazzuma\Exception\InvalidPaymentOptionException;
+use Peter\Mazzuma\Exception\EmptyArgumentNotAccepted;
 
 class MazzumaApi {
 
     /** @var string The API Endpoint */
-    private $api = 'https://client.teamcyst.com/api_call.php';
+    private $endpoint_url = 'https://client.teamcyst.com/api_call.php';
 
     /** @var string The API Key from Mazzuma */
     private $apikey;
@@ -61,7 +62,7 @@ class MazzumaApi {
             'Content-Type: application/json'
          );
 
-         $ch = curl_init($endpoint_url);                                                                      
+         $ch = curl_init($this->endpoint_url);                                                                      
          curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
          curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($transaction_data)); // the data passed into the request is in json format                                                                 
          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                     
@@ -78,7 +79,12 @@ class MazzumaApi {
      * @param $amount_input string - the amount to send
      * @return MazzumaAPI
      */
-    private function amount($amount_input) {
+    public function amount($amount_input = null) {
+
+        if($amount_input == null) {
+            throw new InvalidAmountException("Please enter an amount to send");
+        }
+
         $this->validateAmount($amount_input);
         $this->amount = $amount_input;
         return $this;
@@ -97,7 +103,13 @@ class MazzumaApi {
      * @param $sender string - the mobile money phone number of the sender
      * @return MazzumaAPI
      */
-    private function sender($sender) {
+    public function sender($sender = null) {
+
+        // check that sender number is provided
+        if($sender == null) {
+            throw new EmptyArgumentNotAccepted("Sender MOMO Number is missing!");
+        }
+        
         $this->sender = $sender;
         return $this;
     }
@@ -115,7 +127,13 @@ class MazzumaApi {
      * @param $reciever string - the mobile money phone number of the recipient
      * @return MazzumaAPI
      */
-    private function recipient($reciever) {
+    public function recipient($receiver) {
+
+        // check that recipient number is provided
+        if($sender == null) {
+            throw new EmptyArgumentNotAccepted("Recipient MOMO Number is missing!");
+        }
+
         $this->recipient = $receiver;
         return $this;
     }
@@ -154,7 +172,7 @@ class MazzumaApi {
      */
     private function setPaymentOption($payment_flow) {
 
-        switch ($paymentDirection) {
+        switch ($payment_flow) {
             case 'MTN_TO_MTN':
                 $this->option = 'rmtm';
                 break;
@@ -192,7 +210,7 @@ class MazzumaApi {
     /**
      * Parses the Transaction Details into Json for API call
      */
-    private function buildTransactionDetails($option, $network, $apikey, $sender_momo_number, $recipient_momo_number, $amount
+    public function buildTransactionDetails($option, $network, $apikey, $sender_momo_number, $recipient_momo_number, $amount
     ) {
         if (empty($option) || empty($network) || empty($apikey) || empty($sender_momo_number) || empty($recipient_momo_number) || empty($amount)) {
             return "Invalid Input! Make sure to provide all inputs";
@@ -207,16 +225,14 @@ class MazzumaApi {
             "apikey"=> $apikey
         ];
 
-        $json_data = json_encode($data);
-
-        return $json_data;
+        return $data;
     }
 
     /**
      * validate the amount to ensure it's a number
      * @return boolean
      */
-    private function validateAmount($amount) {
+    private function validateAmount($amount_input) {
 
         if(!is_numeric($amount_input)) {
             throw new InvalidAmountException('Amount is an invalid number');
