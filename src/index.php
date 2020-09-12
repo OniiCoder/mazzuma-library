@@ -5,9 +5,6 @@ use Peter\Mazzuma\Exception\InvalidAmountException;
 use Peter\Mazzuma\Exception\InvalidPaymentOptionException;
 
 class MazzumaApi {
-     //TODO
-    //Validate amount
-    //Validate fields
 
     /** @var string The API Endpoint */
     private $api = 'https://client.teamcyst.com/api_call.php';
