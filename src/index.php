@@ -79,7 +79,7 @@ class MazzumaAPI {
         $recipient_momo_number,
         $amount
     ) {
-        if (empty($option) || empty($network) || empty($apikey) || empty($sender_momo_number) || empty($recipient_momo_number) || empty($amount)) {
+        if (empty($option) || empty($network) || empty($apikey) || empty($sender_momo_number) || empty($recipient_momo_number) || $this->validateAmount(amount)) {
             return "Invalid Input! Make sure to provide all inputs";
         }
 
@@ -95,5 +95,9 @@ class MazzumaAPI {
         $json_data = json_encode($data);
 
         return $json_data;
+    }
+
+    private function validateAmount($amount) {
+        (is_numeric($amount)) ? false : new InvalidAmountException('Amount must be a number.');
     }
 }
