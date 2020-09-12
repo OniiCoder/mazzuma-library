@@ -13,20 +13,23 @@ class MazzumaAPI {
     /** @var string The API Key from Mazzuma */
     private $apikey;
 
-    // /** @var string An integer value of the amount being sent */
-    // private $amount;
+    /** @var string An integer value of the amount being sent */
+    private $amount;
 
-    // /** @var string Network of sender */
-    // private $network;
+    /** @var string Network of sender */
+    private $network;
 
-    // /** @var string Who is receiving the money? */
-    // private $recipient_momo_number;
+    /** @var string Who is receiving the money? */
+    private $recipient;
 
-    // /** @var string Who is sending the money? */
-    // private $sender_momo_number;
+    /** @var string Who is sending the money? */
+    private $sender;
 
-    // /** @var string The transaction flow direction */
-    // private $option;
+    /** @var string The transaction flow direction */
+    private $option;
+
+    /** @var object  The response of the API */
+    private $api_response;
 
     /**
      * create new MazzumaAPI instance
@@ -39,7 +42,7 @@ class MazzumaAPI {
      * Call method to process transaction
      */
 
-    public function sendMoney($data) {
+    public function sendMoney() {
 
         // check if CURL is enabled
         if (!function_exists('curl_version')) {
@@ -47,12 +50,12 @@ class MazzumaAPI {
         }
 
         $transaction_data = $this->buildTransactionDetails(
-            $data['option'],
-            $data['sender_network'],
-            $data['api_key'],
-            $data['sender_momo_number'],
-            $data['recipient_momo_number'],
-            $data['amount']
+            $this->option,
+            $this->network,
+            $this->apikey,
+            $this->sender,
+            $this->recipient,
+            $this->amount
         );
 
         $headers = array(
@@ -62,11 +65,101 @@ class MazzumaAPI {
          $ch = curl_init($endpoint_url);                                                                      
          curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
          curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($transaction_data)); // the data passed into the request is in json format                                                                 
-         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                     
          curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
          
-         return $server_response = curl_exec ($ch);
+         $server_response = curl_exec ($ch);
+         $this->api_response = json_decode($server_response, true);
+         
+         return $this->api_response;
     }
+
+    private function amount($amount_input) {
+        $this->validateAmount($amount_input);
+        $this->amount = $amount_input;
+        return $this;
+    }
+
+    public function getAmount() {
+        return $this->amount;
+    }
+
+    private function sender($sender) {
+        $this->sender = $sender;
+
+        return $this;
+    }
+
+    public function getSender() {
+        return $this->sender;
+    }
+
+    private function recipient($reciever) {
+        $this->recipient = $receiver;
+        return $this;
+    }
+
+    public function getRecipient() {
+        return $this;
+    }
+
+    /**
+     * set sender network
+     * set payment option
+     */
+    public function transfer($payment_flow) {
+        $this->network = $this->getSenderNetwork($payment_flow);
+        $this->setPaymentOption($payment_flow);
+        return $this;
+    }
+
+    /**
+     * 
+     * @return get sender network from payment flow
+     */
+    private function getSenderNetwork($paymentFlow)
+    {
+        $networks = explode("_", trim($paymentFlow));
+
+        return strtolower($networks[0]);
+    }
+
+    private function setPaymentOption($payment_flow) {
+
+        switch ($paymentDirection) {
+            case 'MTN_TO_MTN':
+                $this->option = 'rmtm';
+                break;
+            case 'MTN_TO_AIRTEL':
+                $this->option = 'rmta';
+                break;
+            case 'MTN_TO_VODAFONE':
+                $this->option = 'rmtv';
+                break;
+            case 'VODAFONE_TO_MTN':
+                $this->option = 'rvtm';
+                break;
+            case 'VODAFONE_TO_AIRTEL':
+                $this->option = 'rvta';
+                break;
+            case 'VODAFONE_TO_VODAFONE':
+                $this->option = 'rvtv';
+                break;
+            case 'AIRTEL_TO_MTN':
+                $this->option = 'ratm';
+                break;
+            case 'AIRTEL_TO_AIRTEL':
+                $this->option = 'rata';
+                break;
+            case 'AIRTEL_TO_VODAFONE':
+                $this->option = 'ratv';
+                break;
+            
+            default:
+                throw new InvalidPaymentOptionException('Invalid payment option!');
+        }
+    }
+
 
     /**
      * Parses the Transaction Details into Json for API call
@@ -98,6 +191,12 @@ class MazzumaAPI {
     }
 
     private function validateAmount($amount) {
-        (is_numeric($amount)) ? false : new InvalidAmountException('Amount must be a number.');
+
+        if(!is_numeric($amount_input)) {
+            throw new InvalidAmountException('Amount is an invalid number');
+        }
+
+        return true;
+
     }
 }
