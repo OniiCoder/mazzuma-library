@@ -4,7 +4,7 @@ namespace Peter\Mazzuma;
 use Peter\Mazzuma\Exception\InvalidAmountException;
 use Peter\Mazzuma\Exception\InvalidPaymentOptionException;
 
-class MazzumaAPI {
+class MazzumaApi {
      //TODO
     //Validate amount
     //Validate fields
