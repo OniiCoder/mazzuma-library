@@ -2,7 +2,7 @@
 
 namespace Peter\Mazzuma;
 
-class Index {
+class MazzumaAPI {
 
     public function sendMoney($endpoint_url, $transaction_data) {
 
