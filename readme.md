@@ -17,28 +17,27 @@ composer require peterperez/mazzuma-library:dev-master
 require_once __DIR__ . '/vendor/autoload.php';
 
 // import our mazzuma class
-use peter\Mazzuma\Index;
+use Peter\Mazzuma\MazzumaApi;
+
+// get API key from your Mazzuma Dashboard
+$api_key = "XXXXXXX"; 
 
 // initialize the library
-$mazzuma = new Index();
-
-//specify request endpoint
-$endpoint_url = 'https://client.teamcyst.com/api_call.php';
-
-//prepare transaction data
-$transaction_data = array(
-    "price"=> 1,
-    "network"=> "mtn", // what network are you sending from?
-    "recipient_number"=> "054XXXXXXX", // who is receiving?
-    "sender"=> "054XXXXXXX", // who is sending?
-    "option"=> "rmtm",
-    "apikey"=> "YOUR-API-KEY" // provide API Key from Mazzuma Dashboard
-);
+$mazzuma = new MazzumaApi($api_key);
 
 //initiate transaction and assign response to $transaction
-$transaction = $mazzuma->sendMoney($endpoint_url, $transaction_data);
+try {
+$api_response = $mazzuma->transfer('MTN_TO_MTN') // TRANSCATION FLOW
+                ->amount(1) // AMOUNT TO SEND
+                ->sender('0541718326') // WHO IS SENDING THE MONEY
+                ->recipient('0548797248') // WHO IS RECEIVING THE MONEY
+                ->sendMoney(); // TRIGGER THE TRANSFER
 
-var_dump($transaction);
+echo json_encode($api_response);
+
+} catch(Exception $e) {
+    echo $e->getMessage();
+}
 
 ```
 
