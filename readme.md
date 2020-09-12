@@ -29,8 +29,8 @@ $mazzuma = new MazzumaApi($api_key);
 try {
 $api_response = $mazzuma->transfer('MTN_TO_MTN') // TRANSCATION FLOW
                 ->amount(1) // AMOUNT TO SEND
-                ->sender('0541718326') // WHO IS SENDING THE MONEY
-                ->recipient('0548797248') // WHO IS RECEIVING THE MONEY
+                ->sender('05XXXXXXXX') // WHO IS SENDING THE MONEY
+                ->recipient('05XXXXXXXX') // WHO IS RECEIVING THE MONEY
                 ->sendMoney(); // TRIGGER THE TRANSFER
 
 echo json_encode($api_response);
